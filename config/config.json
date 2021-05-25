@@ -1,0 +1,108 @@
+{
+  "paths": {
+    "prefix": "",
+    "checkpoint_dir": "models/weights",
+    "tb_log_file_dir": "tb_logs/",
+    "use_all_bands": true,
+    "use_band": "NIR",
+    "**use_all_band": "NIR, RED you can choose"
+  },
+  "network": {
+    "encoder": {
+      "in_channels": 1,
+      "num_layers" : 3,
+      "kernel_size": 3,
+      "channel_size": 64
+    },
+    "transformer": {
+      "dim": 64,
+      "depth": 6,
+      "heads": 8,
+      "mlp_dim": 128,
+      "dropout": 0.1
+    },
+    "decoder": {
+      "final": {
+        "in_channels": 64,
+        "kernel_size": 1
+      }
+    }
+  },
+    
+  "training": {
+     "use_all_data_to_fight_leaderboard": false,
+     "strategy": 2,
+     "**all_strategy": "0 means Reduce, 1 means Cosine, 2 means Manual, others(like 3) means NotReduce",
+     "optim": "Adam",
+     "**all_optims": "SGD, Adam you can choose",
+
+     "seed": 123,
+     "seed2": 0,
+     "min_L": 24,
+     "n_views": 24,
+     "n_workers": 4,
+     "crop": 3,
+
+     "num_epochs": 400,
+     "batch_size": 4,
+     "gpu_num": 1,
+     "map_depend": false,
+     "std_depend": false,
+     "truncate values": true,
+
+     "data_arguments": false,
+     "**data_arguments": "need to fix, please choose false",
+     "probability of rotation":  [0.25,0.25,0.25,0.25],
+     "corresponding angles(x90)": [  0,   1,   2,   3],
+     "probability of flipping horizontally": 0.25,
+     "probability of flipping vertically":   0.25,
+
+     "load_model": false,
+     "model_path": "",
+     "pth_epoch_num": 0,
+     "**pth_epoch_num": "if use newest pth, write 0",
+
+     "lr_coder": 0.001,
+     "lr_transformer": 0.0005,
+     "lr_step": 3,
+     "lr_decay": 0.95,
+     "create_patches": false,
+     "patch_size": 64,
+     "val_proportion": 0.10,
+
+     "use_all_losses": false,
+     "loss_depend": "L2",
+     "**all_loss_depend": "L1, L2 or SSIM you can choose",
+     "alpha1": 1.0,
+     "alpha2": 0.0,
+     "alpha3": 2.0
+  },
+
+  "testing": {
+     "use_gpu": true,
+     "gpu_num": 0,
+     "truncate values": true,
+     "model_path_band_RED": "",
+     "model_path_band_NIR": "",
+     "pth_epoch_num_RED": 0,
+     "pth_epoch_num_NIR": 0,
+     "**pth_epoch_num": "if use newest pth, write 0",
+     "test_data_path": "",
+     "generate_visual_imgs": true,
+     "submission_path": "./submission",
+     "visual_imgs_path": "./submission_vis/"
+  },
+
+  "val":{
+     "use_gpu": false,
+     "gpu_num": 0,
+     "truncate values": true,
+     "model_path_band_RED": "",
+     "model_path_band_NIR": "",
+     "pth_epoch_num_RED": 0,
+     "pth_epoch_num_NIR": 0,
+     "**pth_epoch_num": "if use newest pth, write 0",
+     "val_data_path": "",
+     "save_fig_name": "./val_plot.png"
+  }
+}
