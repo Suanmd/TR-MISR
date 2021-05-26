@@ -1,6 +1,6 @@
 {
   "paths": {
-    "prefix": "",
+    "prefix": "./split_data",
     "checkpoint_dir": "models/weights",
     "tb_log_file_dir": "tb_logs/",
     "use_all_bands": true,
@@ -9,8 +9,8 @@
   },
   "network": {
     "encoder": {
-      "in_channels": 1,
-      "num_layers" : 3,
+      "in_channels": 2,
+      "num_layers" : 2,
       "kernel_size": 3,
       "channel_size": 64
     },
@@ -82,8 +82,8 @@
      "use_gpu": true,
      "gpu_num": 0,
      "truncate values": true,
-     "model_path_band_RED": "",
-     "model_path_band_NIR": "",
+     "model_path_band_RED": "./models/weights/batch_X_time_XXXX-XX-XX-XX-XX-XX-XXXXXX/",
+     "model_path_band_NIR": "./models/weights/batch_X_time_XXXX-XX-XX-XX-XX-XX-XXXXXX/",
      "pth_epoch_num_RED": 0,
      "pth_epoch_num_NIR": 0,
      "**pth_epoch_num": "if use newest pth, write 0",
@@ -97,8 +97,8 @@
      "use_gpu": false,
      "gpu_num": 0,
      "truncate values": true,
-     "model_path_band_RED": "",
-     "model_path_band_NIR": "",
+     "model_path_band_RED": "./models/weights/batch_X_time_XXXX-XX-XX-XX-XX-XX-XXXXXX/",
+     "model_path_band_NIR": "./models/weights/batch_X_time_XXXX-XX-XX-XX-XX-XX-XXXXXX/",
      "pth_epoch_num_RED": 0,
      "pth_epoch_num_NIR": 0,
      "**pth_epoch_num": "if use newest pth, write 0",
