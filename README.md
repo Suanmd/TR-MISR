@@ -1,3 +1,5 @@
+# Multi-Image Super-Resolution Task
+
 In remote sensing, multi-image super-resolution (MISR) is a challenging problem. The release of the Proba-V Kelvin data set has aroused our great interest.
 
 We believe that multiple images contain more information than a single image, so it is necessary to improve image utilization significantly. Besides, the timespan of multiple images taken by Proba-V is long, and the ordering of the images is unknown, so the interference of image position needs to be eliminated.
@@ -7,6 +9,7 @@ In this repository, we demonstrate a novel Transformer-based MISR framework name
 TR-MISR supports predefined model size and number of input images, and no pre-training is required. Overall, TR-MISR is an attempt to use a Transformer for a specific low-level vision task.
 
 Recommended GPU platform: Tesla V100. If the GPU memory is insufficient, please reduce the batch size or choose smaller model hyperparameters as appropriate.
+
 ![Fig1. Overview of TR-MISR.](https://github.com/Suanmd/TR-MISR/blob/master/imgs/TR-MISR.png)
 
 #### 0. Setup the environment
@@ -71,8 +74,6 @@ The _test_ script is mainly used to submit the results to the leaderboard since 
 python /src/test.py
 ```
 The leaderboard is shown as follows:
+
 ![Fig2. The leaderboard.](https://github.com/Suanmd/TR-MISR/blob/master/imgs/The_leader_board.png)
-
-#### 5. Plot the results
-
 
