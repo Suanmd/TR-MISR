@@ -1,14 +1,13 @@
-初版，待进一步完善。
+In remote sensing, multi-image super-resolution (MISR) is a challenging problem. The release of the Proba-V Kelvin data set has aroused our great interest.
 
-在遥感领域，MISR是一个有挑战性的问题。PROBA-V Kelvin Dataset的发布引起了我们研究的极大兴趣。
+We believe that multiple images contain more information than a single image, so it is necessary to improve image utilization significantly. Besides, the timespan of multiple images taken by Proba-V is long, and the ordering of the images is unknown, so the interference of image position needs to be eliminated.
 
-我们认为，多张图像包含更多的信息，所以对于遥感图像的MISR问题，首先需要解决的就是图像利用率的问题。其次，PROBA-V所拍摄的多图像存在较大的时间跨度，并且图像序列未知，如何尽可能减小图像位置信息的干扰也是一个挑战。
+In this repository, we demonstrate a novel Transformer-based MISR framework named TR-MISR, which gets the state-of-the-art in the Proba-V super-resolution challenge. TR-MISR does not pursue the complexity of the encoder and decoder but the feature fusion capability of the fusion module. Specifically, we rearrange the feature maps encoded by low-resolution images to a set of feature vectors. By adding an embedding vector, these images can be fused through multi-layers of Transformer with self-attention. Then, we decode the output of the embedding vector to get the high-resolution image.
+ 
+TR-MISR supports predefined model size and number of input images, and no pre-training is required. Overall, TR-MISR is an attempt to use a Transformer for a specific low-level vision task.
 
-在这个repository中，我们展示了一种灵活的，基于Transformer的MISR解决方案，名字叫TR-MISR。该方案在PROBA-V Super Resolution Challenge上获得了最好的成绩。TR-MISR不追求编码和解码的复杂性，追求的是融合模块的特征融合能力。简单来说，在融合模块中，每个基于感受野编码得到的特征向量经过Transformer进行自注意力计算，并通过一个embedding vector将这些向量融合，在其后的解码模块只需要对embedding vector进行简单的sub-pixel convolution即可输出高分辨率图像的对应区域。TR-MISR支持预定义模型大小和输入图像数量，且无需预训练。总体来说，TR-MISR是一次Transformer用于特定低级视觉任务的尝试。
-
-推荐GPU平台：Tesla V100，如果GPU显存不足，请酌情降低batch size或者选择更小型的模型进行训练测试。
-
-![Fig.1 The overview of TR-MISR. ](README_md_files%5CTR-MISR%20%282%29.png?v=1&type=image)
+Recommended GPU platform: Tesla V100. If the GPU memory is insufficient, please reduce the batch size or choose smaller model hyperparameters as appropriate.
+![Fig1. Overview of TR-MISR.](https://github.com/Suanmd/TR-MISR/blob/master/imgs/TR-MISR.png)
 
 #### 0. Setup the environment
 -   Setup a python environment and install dependencies, our python version == 3.6.12
@@ -16,19 +15,19 @@
 pip install -r requirements.txt
 ```
 #### 1. Prepare the data set
--   下载RAMS所分配的验证/训练集，[RAMS/probav_data at master · EscVM/RAMS (github.com)](https://github.com/EscVM/RAMS/tree/master/probav_data)
--   Run the split_data_fit script to crop images in each scene，设置好路径(对训练集裁剪即可)。
+-   Download the validation/training set assigned by RAMS, [RAMS/probav_data at master · EscVM/RAMS (github.com)](https://github.com/EscVM/RAMS/tree/master/probav_data)
+-   Run the _split_data_fit_ script to crop images in each scene for the training set.
 ```
 python ./split_data_fit.py
 ```
--   Run the save_clearance script to precompute clearance scores for low-res views
+-   Run the _save_clearance_ script to precompute clearance scores for low-resolution images.
 ```
 python ./save_clearance.py
 ```
--   You can get the 完整的预处理后的数据集，在XX和XX中。
+-   You can easily get the complete pre-processed dataset on [Google Drive](https://drive.google.com/file/d/1_ZYJqHaXmAZqVlLVxLf118_R5wp7Rt7L/view?usp=sharing) or [Baidu Cloud](https://pan.baidu.com/s/1vlaisAQS1BAhDhsnZW73pA) (code:gflb).
 
-#### 2. Complete the config
-在config文件中，主要的设置包括
+#### 2. Complete the config file
+In the config file, the main settings are shown in the following table.
 |item|description| 
 |-|--|
 |_prefix_|directory for the data set.|
@@ -41,32 +40,38 @@ python ./save_clearance.py
 |_all_loss_depend_|if _True_, then set the ratio of the three losses.|
 |_model_path_band_|indicate the path of the model.|
 
-#### 2. Train the model
-以上流程若准备完毕，可以进行训练。
+#### 3. Train the model
+If the above processes are prepared, then training can be carried out.
 ```
 python ./src/train.py
 ```
-如果需要保留训练日志re.log，请运行
+If you need to record the training log, run
 ```
 python ./src/train.py 2>&1 | tee re.log
 ```
-保留下来的日志re.log可供train_all_read_log或train_read_log读取并打印出详细信息，若是全数据训练则使用前者。
+The re.log file can be used to print out the details in each epoch.
 ```
-python ./train_all_read_log.py
-python ./train_read_log.py
+python ./train_all_read_log.py   # for training all data
+python ./train_read_log.py       # for training and evaluation
+```
+You can also view training logs with _tensorboardX_.
+```
+tensorboard --logdir='tb_logs/'
 ```
 #### 3. Validate the model
-验证集在给定NIR波段和RED波段分别训练的模型路径后，会输出一个val_plot.png用于可视化每个场景与baseline的比较结果。
+
+-  Fix the model paths trained in the NIR band and RED band, respectively.
+-  The _val_ script outputs a val_plot.png to visualize the results of each scene constructed by TR-MISR compared to the baseline.
 ```
 python /src/val.py
 ```
 #### 4. Test the model
-此函数主要是为了提交结果，由于Proba-V数据集中的测试集没有Ground Truth，用此函数是为了提交结果到排行榜上，见[Kelvins - PROBA-V Super Resolution post mortem Leaderboard (esa.int)](https://kelvins.esa.int/proba-v-super-resolution-post-mortem/leaderboard/)。此脚本会输出一个16位的提交压缩包（位于submission）用于提交和一个8位的可视化结果（位于submission_vis）方便查看效果。
+The _test_ script is mainly used to submit the results to the leaderboard since the ground truth is not involved in the testing set. The _test_ script will output a submission zip with 16-bit images (located in _'./submission/'_) and a visualization with 8-bit images(located in _'./submission_vis/'_).
 ```
 python /src/test.py
 ```
-
-![Fig 2. The leader board.](README_md_files%5CThe_leader_board.png?v=1&type=image)
+The leaderboard is shown as follows:
+![Fig2. The leaderboard.](https://github.com/Suanmd/TR-MISR/blob/master/imgs/The_leader_board.png)
 
 #### 5. Plot the results
 
