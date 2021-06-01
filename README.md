@@ -3,13 +3,14 @@
 
 In remote sensing, multi-image super-resolution (MISR) is a challenging problem. The release of the PROBA-V Kelvin data set has aroused our great interest.
 
-We believe that multiple images contain more information than a single image, so it is necessary to improve image utilization significantly. Besides, the time span of multiple images taken by the PROBA-V satellite is long. Even the order of the images is unknown, so the interference of image position needs to be eliminated.
+We believe that multiple images contain more information than a single image, so it is necessary to improve image utilization significantly. Besides, the time span of multiple images taken by the PROBA-V satellite is long, and the order of the images is unknown, so the interference of image position needs to be eliminated.
 
 In this repository, we demonstrate a novel Transformer-based MISR framework, namely TR-MISR, which gets the state-of-the-art in the PROBA-V super-resolution challenge. TR-MISR does not pursue the complexity of the encoder and decoder but the feature fusion capability of the fusion module. Specifically, we rearrange the feature maps encoded by low-resolution images to a set of feature vectors. By adding a learnable embedding vector, these feature vectors can be fused through multi-layers of the Transformer with self-attention. Then, we decode the output of the embedding vector to get a patch of a high-resolution image.
  
 TR-MISR supports pre-definition of the model size and the number of input images and does not require pre-training. Overall, TR-MISR is an attempt to apply Transformers to a specific low-level vision task.
 
-Recommended GPU platform: Tesla V100. If GPU memory is insufficient, please reduce the batch size or choose a smaller model hyperparameter as appropriate.
+ - Recommended GPU platform: An NVIDIA ® Tesla ® V100 GPU. 
+ - If you are using another GPU and facing a memory shortage, please reduce the batch size or choose a smaller model hyperparameter as appropriate.
 
 ![Fig1. Overview of TR-MISR.](https://github.com/Suanmd/TR-MISR/blob/master/imgs/TR-MISR.png)
 
@@ -31,7 +32,7 @@ python ./save_clearance.py
 -   You can easily get the complete pre-processed dataset on [Google Drive](https://drive.google.com/file/d/1_ZYJqHaXmAZqVlLVxLf118_R5wp7Rt7L/view?usp=sharing) or [Baidu Cloud](https://pan.baidu.com/s/1vlaisAQS1BAhDhsnZW73pA) (code:gflb).
 
 #### 2. Complete the config file
-In the config file, the main settings are shown in the following Table.
+In the config file, the main settings are shown in the following table.
 |item|description| 
 |-|--|
 |_prefix_|directory for the data set.|
