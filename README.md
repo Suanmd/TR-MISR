@@ -1,6 +1,8 @@
 # Multi-Image Super-Resolution Task
 
 
+### **Ranked #1** on  [Multi-Frame Super-Resolution on PROBA-V](https://paperswithcode.com/sota/multi-frame-super-resolution-on-proba-v)
+
 In remote sensing, multi-image super-resolution (MISR) is a challenging problem. The release of the PROBA-V Kelvin dataset has aroused our great interest.
 
 We believe that multiple images contain more information than a single image, so it is necessary to improve image utilization significantly. Besides, the time span of multiple images taken by the PROBA-V satellite is long, so the impact of image position needs to be reduced.
@@ -77,5 +79,18 @@ python /src/test.py
 ```
 The leaderboard is shown as follows:
 
-![Fig2. The leaderboard.](https://github.com/Suanmd/TR-MISR/blob/master/imgs/The_leader_board.png)
+[PROBA-V Benchmark (Multi-Frame Super-Resolution) | Papers With Code](https://paperswithcode.com/sota/multi-frame-super-resolution-on-proba-v)
+
+------
+If it helps for you, please cite 
+
+    @article{an2022tr,
+      title={TR-MISR: Multiimage Super-Resolution Based on Feature Fusion With Transformers},
+      author={An, Tai and Zhang, Xin and Huo, Chunlei and Xue, Bin and Wang, Lingfeng and Pan, Chunhong},
+      journal={IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing},
+      volume={15},
+      pages={1373--1388},
+      year={2022},
+      publisher={IEEE}
+    }
 
