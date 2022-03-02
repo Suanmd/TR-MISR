@@ -65,14 +65,14 @@ You can also view the training logs with _tensorboardX_.
 ```
 tensorboard --logdir='tb_logs/'
 ```
-#### 3. Validate the model
+#### 4. Validate the model
 
 -  Fix the model paths trained in the NIR band and RED band, respectively.
 -  The _val_ script outputs a val_plot.png to visualize the results of each scene obtained by TR-MISR compared to the baseline.
 ```
 python /src/val.py
 ```
-#### 4. Test the model
+#### 5. Test the model
 The _test_ script is mainly used to submit the results to the leaderboard since the ground truth is not involved in the testing set. The _test_ script will output a submission zip with 16-bit images (located in _'./submission/'_) and a visual result with 8-bit images (located in _'./submission_vis/'_). The [test platform](https://kelvins.esa.int/proba-v-super-resolution-post-mortem/leaderboard/)  is still open, allowing more methods to challenge their performance limits.
 ```
 python /src/test.py
