@@ -1,4 +1,4 @@
-""" Pytorch implementation of TRNet, a neural network for multi-frame super resolution (MFSR) by recursive fusion. """
+""" Pytorch implementation of TRNet, a neural network for multi-frame super resolution (MFSR) by transformer fusion. """
 
 import torch
 import torch.nn.functional as F
@@ -196,7 +196,7 @@ class Decoder(nn.Module):
         return x
 
 class TRNet(nn.Module):
-    ''' TRNet, a neural network for multi-frame super resolution (MFSR) by recursive fusion. '''
+    ''' TRNet, a neural network for multi-frame super resolution (MFSR) by transformer fusion. '''
 
     def __init__(self, config):
         '''
